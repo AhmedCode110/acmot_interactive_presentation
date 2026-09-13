@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AC-MOT — Q1 Research History v2</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .history-strip{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}.history-step{flex:1;min-width:150px;padding:16px;border:2px solid #CBD5E1;border-radius:16px;background:#fff}.history-step b{display:block;font-size:21px;color:#0F172A}.history-step small{font-size:16px;color:#64748B}.metric-card{padding:18px;border-radius:18px;border:2px solid #E2E8F0;background:#fff}.metric-card .m{font-size:34px;font-weight:900}.metric-card .d{font-size:18px;color:#475569}.simple-bar{height:28px;background:#E2E8F0;border-radius:99px;overflow:hidden}.simple-bar>i{display:block;height:100%;background:#4F46E5;border-radius:99px}.simple-bar.good>i{background:#16A34A}.simple-bar.warn>i{background:#F59E0B}.simple-bar.bad>i{background:#DC2626}.compare-row{display:grid;grid-template-columns:260px 1fr 120px;gap:14px;align-items:center;font-size:21px}.compare-row strong{text-align:right}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:25px;background:#F8FAFC;border:2px solid #E2E8F0;border-radius:16px;padding:14px 18px}.truth{border-left:7px solid #0F766E;background:#F0FDFA}.caution{border-left:7px solid #F59E0B;background:#FFFBEB}.neg{color:#B91C1C}.pos{color:#15803D}.neutral{color:#475569}.two-pipeline{display:grid;grid-template-columns:1fr 120px 1fr;gap:20px;align-items:center}.badge-final{display:inline-flex;padding:7px 12px;border-radius:999px;background:#DCFCE7;color:#166534;font-weight:850;font-size:16px}.badge-hist{display:inline-flex;padding:7px 12px;border-radius:999px;background:#FEF3C7;color:#92400E;font-weight:850;font-size:16px}.badge-test{display:inline-flex;padding:7px 12px;border-radius:999px;background:#DBEAFE;color:#1D4ED8;font-weight:850;font-size:16px}.tiny-note{font-size:16px;color:#64748B}.svgbox{width:100%;height:100%}.q1-list li{margin-bottom:10px}.result-arrow{font-size:42px;font-weight:900;color:#94A3B8;text-align:center}
+</style>
+</head>
+<body>
+<div class="viewport"><main class="stage" id="stage">
+
+<!-- 1 -->
+<section class="slide title-slide" data-sec="0" data-secname="Title" data-title="AC-MOT Q1 research history">
+  <div class="title-left">
+    <div class="eyebrow">Master's research · frozen scientific history</div>
+    <h1>AC-MOT</h1>
+    <div class="t-sub">Adaptive Control for Real-Time<br>Multi-Object Tracking</div>
+    <div class="t-sub2">From the lightweight pipeline to a frozen U2MOT generalization study</div>
+    <div class="t-people"><div><span class="lbl">Presented by</span><b>Ahmed Gouda Ismail</b></div><div><span class="lbl">Research goal</span><b>Scene-aware detector control for aerial MOT</b></div></div>
+    <div class="t-aff">Military Technical College · Computers Engineering and Artificial Intelligence Department · Cairo, Egypt</div>
+  </div>
+  <div class="title-right">
+    <div class="img tr-main zoomable"><img src="assets/figures/image15.jpeg" alt="Aerial tracking frame with boxes and identities"></div>
+    <div class="tr-tags"><span class="pill sec">Detect</span><span class="pill sec">Track</span><span class="pill sec">Adapt</span><span class="pill good">Freeze</span></div>
+  </div>
+  <aside class="notes"><p><b>Say:</b> "This version tells the research in the order it actually happened, ending with the frozen held-out U2MOT experiment."</p></aside>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-sec="0" data-secname="Title" data-title="Research journey">
+<header class="s-head"><div class="kicker">How the work evolved</div><h2>One Research Story — Not Separate Experiments</h2></header>
+<div class="s-body col" style="gap:20px">
+  <div class="history-strip">
+    <div class="history-step"><b>1 · Problem</b><small>fixed settings cannot fit every aerial scene</small></div>
+    <div class="history-step"><b>2 · AC-MOT</b><small>scene complexity controls detector settings</small></div>
+    <div class="history-step"><b>3 · V1 / V2</b><small>optimize quality and identity trade-offs</small></div>
+    <div class="history-step"><b>4 · Protocol fix</b><small>separate internal and official-aligned evaluation</small></div>
+    <div class="history-step"><b>5 · U2MOT</b><small>test transfer to a different published pipeline</small></div>
+    <div class="history-step"><b>6 · Freeze</b><small>lock before held-out test-dev</small></div>
+  </div>
+  <div class="callout truth"><b>Main question:</b> Can a lightweight scene-aware controller change the detector operating point without redesigning the tracker?</div>
+  <div class="img zoomable" style="height:360px"><img src="assets/figures/image1.png" alt="Aerial scene used to motivate scene-dependent tracking difficulty"><span class="lbl">Aerial scenes change strongly in density, scale, light and motion blur.</span></div>
+</div>
+<aside class="notes"><p>The history matters: the latest U2MOT study is a generalization experiment, not a replacement for the original lightweight thesis track.</p></aside>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-sec="1" data-secname="I · Problem" data-title="Why aerial MOT is difficult">
+<header class="s-head"><div class="kicker">Research problem</div><h2>Why Is Aerial Multi-Object Tracking Hard?</h2></header>
+<div class="s-body row">
+  <div class="img zoomable" style="width:760px;height:560px"><img src="assets/figures/image2.png" alt="Aerial image with many small detections"><span class="lbl">Look for tiny objects, crowding and large scale changes.</span></div>
+  <div class="col grow" style="gap:16px">
+    <div class="card"><h3>Tiny targets</h3><p>Cars and people may occupy only a few pixels.</p></div>
+    <div class="card"><h3>Dense scenes</h3><p>Nearby objects make matching and identity preservation harder.</p></div>
+    <div class="card"><h3>Changing image quality</h3><p>Blur, darkness and edges vary from frame to frame.</p></div>
+    <div class="callout caution"><b>Key idea:</b> scene difficulty is not constant, so one detector setting may not always be efficient.</div>
+  </div>
+</div>
+<aside class="notes"><p>Point at the image while explaining each difficulty. The image is not decoration; it shows the reason for adaptation.</p></aside>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-sec="1" data-secname="I · Problem" data-title="Detection and tracking">
+<header class="s-head"><div class="kicker">Fundamentals</div><h2>Detection Finds Objects — Tracking Keeps Their IDs</h2></header>
+<div class="s-body col">
+  <div class="flow" style="margin-top:24px"><div class="node io">Frame</div><div class="arr"></div><div class="node fx">Detector<small>boxes + scores</small></div><div class="arr"></div><div class="node hot">Tracker<small>associate across time</small></div><div class="arr"></div><div class="node good">IDs<small>car #7 stays #7</small></div></div>
+  <div class="g2" style="gap:24px;margin-top:30px">
+    <div class="card sec"><h3>Detector example</h3><div class="formula">car · score = 0.82</div><p>If the confidence threshold is 0.50, this detection is kept.</p></div>
+    <div class="card sec"><h3>Tracker example</h3><div class="formula">Frame 1: ID 7<br>Frame 2: ID 7<br>Frame 3: ID 7</div><p>Good tracking means the same object keeps the same identity.</p></div>
+  </div>
+  <div class="callout"><b>AC-MOT mainly changes the detector operating point.</b> The tracker can remain fixed.</div>
+</div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-sec="1" data-secname="I · Problem" data-title="Metrics overview">
+<header class="s-head"><div class="kicker">Metrics in plain English</div><h2>What Do We Measure?</h2></header>
+<div class="s-body g4" style="grid-template-rows:1fr 1fr;gap:18px">
+  <div class="metric-card"><div class="m">MOTA ↑</div><div class="d">overall tracking error: FP + FN + ID switches</div></div>
+  <div class="metric-card"><div class="m">IDF1 ↑</div><div class="d">how consistently the correct identity is kept</div></div>
+  <div class="metric-card"><div class="m">IDS ↓</div><div class="d">how often one real object changes its track ID</div></div>
+  <div class="metric-card"><div class="m">FP ↓</div><div class="d">predicted object that is not really there</div></div>
+  <div class="metric-card"><div class="m">FN ↓</div><div class="d">real object that the system missed</div></div>
+  <div class="metric-card"><div class="m">Precision ↑</div><div class="d">of my predictions, how many are correct?</div></div>
+  <div class="metric-card"><div class="m">Recall ↑</div><div class="d">of the real objects, how many did I find?</div></div>
+  <div class="metric-card"><div class="m">FPS ↑</div><div class="d">how many frames can be processed per second?</div></div>
+</div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-sec="1" data-secname="I · Problem" data-title="MOTA simple example">
+<header class="s-head"><div class="kicker">Metric example</div><h2>MOTA: A Simple Way to Think About It</h2></header>
+<div class="s-body row">
+  <div class="col" style="width:620px"><div class="card sec"><div class="big secc">100</div><p>ground-truth object instances</p></div><div class="g3"><div class="card tc"><div class="big">5</div><p>FP</p></div><div class="card tc"><div class="big">10</div><p>FN</p></div><div class="card tc"><div class="big">2</div><p>IDS</p></div></div></div>
+  <div class="col grow center"><div class="formula">Errors = 5 + 10 + 2 = 17<br><br>Simple idea:<br>MOTA ≈ 1 − 17 / 100 = 83%</div><div class="callout caution"><b>Educational example only.</b> The evaluator handles the full frame-by-frame matching.</div></div>
+</div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-sec="1" data-secname="I · Problem" data-title="IDF1 and IDS example">
+<header class="s-head"><div class="kicker">Identity metrics</div><h2>IDF1 and ID Switches: Follow One Car</h2></header>
+<div class="s-body g2" style="gap:28px">
+  <div class="card" style="border-top:7px solid #16A34A"><h3 class="good">Good identity</h3><div class="formula">Frame 1 → ID 7<br>Frame 2 → ID 7<br>Frame 3 → ID 7</div><p>IDF1 likes this: the correct identity is maintained.</p></div>
+  <div class="card" style="border-top:7px solid #DC2626"><h3 class="bad">ID switch</h3><div class="formula">Frame 1 → ID 7<br>Frame 2 → ID 7<br>Frame 3 → ID 12</div><p>The same car changed its ID. That adds an identity switch.</p></div>
+  <div class="callout" style="grid-column:1/3"><b>For IDS, lower is better.</b> For IDF1, higher is better.</div>
+</div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-sec="2" data-secname="II · Research gap" data-title="Fixed settings limitation">
+<header class="s-head"><div class="kicker">Research gap</div><h2>Why One Fixed Detector Setting Can Be Wasteful</h2></header>
+<div class="s-body col">
+  <div class="g3" style="gap:22px">
+    <div class="card"><h3>Easy scene</h3><p>Few large objects, clear lighting.</p><div class="pill good">full resolution may be unnecessary</div></div>
+    <div class="card"><h3>Medium scene</h3><p>More objects and moderate detail.</p><div class="pill sec">balanced detector setting</div></div>
+    <div class="card"><h3>Hard scene</h3><p>Tiny, dense or degraded objects.</p><div class="pill warn">more detector effort may be useful</div></div>
+  </div>
+  <div class="result-arrow">↓</div>
+  <div class="callout truth"><b>Research hypothesis:</b> estimate scene complexity first, then adapt detector confidence, NMS and input resolution.</div>
+</div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-sec="3" data-secname="III · AC-MOT" data-title="AC-MOT pipeline">
+<header class="s-head"><div class="kicker">Proposed method</div><h2>AC-MOT: Scene-Aware Detector Control</h2></header>
+<div class="s-body col" style="gap:24px">
+  <div class="flow" style="margin-top:50px"><div class="node io">Video frame</div><div class="arr"></div><div class="node ad">Scene Analyzer<small>5 cheap cues</small></div><div class="arr"></div><div class="node ad">SCI<small>scene score</small></div><div class="arr"></div><div class="node ad">Controller<small>choose settings</small></div><div class="arr"></div><div class="node fx">Detector</div><div class="arr"></div><div class="node hot">Tracker</div><div class="arr"></div><div class="node good">IDs</div></div>
+  <div class="g3" style="gap:18px;margin-top:40px"><div class="card tc"><h3>Confidence</h3><p>how selective the detector is</p></div><div class="card tc"><h3>NMS IoU</h3><p>how duplicate detections are suppressed</p></div><div class="card tc"><h3>Resolution</h3><p>how much image detail enters the detector</p></div></div>
+  <div class="callout"><b>Important:</b> detector NMS IoU is not the tracker matching threshold.</div>
+</div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-sec="3" data-secname="III · AC-MOT" data-title="SCI cues">
+<header class="s-head"><div class="kicker">Scene Complexity Index</div><h2>Five Signals Describe Scene Difficulty</h2></header>
+<div class="s-body row">
+  <div class="img zoomable" style="width:670px;height:540px"><img src="assets/figures/image15.jpeg" alt="Tracked aerial frame"><span class="lbl">Each cue answers a simple question about this frame.</span></div>
+  <div class="col grow" style="gap:12px">
+    <div class="card"><h3>1 · Crowd</h3><p>How many tracked objects were present?</p></div>
+    <div class="card"><h3>2 · Tiny objects</h3><p>What fraction of boxes are smaller than 32 × 32?</p></div>
+    <div class="card"><h3>3 · Edge complexity</h3><p>How visually busy is the frame?</p></div>
+    <div class="card"><h3>4 · Low light</h3><p>Is the grayscale mean below the night threshold?</p></div>
+    <div class="card"><h3>5 · Blur</h3><p>Is Laplacian variance low?</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-sec="3" data-secname="III · AC-MOT" data-title="SCI numeric example">
+<header class="s-head"><div class="kicker">Worked example</div><h2>SCI: One Simple Numerical Example</h2></header>
+<div class="s-body col">
+  <div class="g3" style="gap:16px">
+    <div class="card"><h3>Crowd</h3><div class="formula">15 / 30 = 0.50</div></div>
+    <div class="card"><h3>Tiny fraction</h3><div class="formula">6 / 15 = 0.40</div></div>
+    <div class="card"><h3>Edge norm</h3><div class="formula">0.07 / 0.14 = 0.50</div></div>
+  </div>
+  <div class="formula">SCI = w₁·crowd + w₂·tiny + w₃·edge + w₄·night + w₅·blur</div>
+  <div class="callout"><b>Then smooth it:</b> use a rolling window of 7 SCI readings and analyze every 10 frames, so the controller does not jump on every small change.</div>
+</div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-sec="4" data-secname="IV · Development history" data-title="Original lightweight track">
+<header class="s-head"><div class="kicker">Original thesis track</div><h2>The Lightweight Real-Time Pipeline Came First</h2></header>
+<div class="s-body col">
+  <div class="two-pipeline">
+    <div class="card sec tc"><div class="big secc">YOLOv8n</div><p>lightweight detector</p></div><div class="result-arrow">+</div><div class="card sec tc"><div class="big secc">ByteTrack</div><p>tracking-by-detection</p></div>
+  </div>
+  <div class="flow" style="margin-top:30px"><div class="node io">frame</div><div class="arr"></div><div class="node ad">SCI</div><div class="arr"></div><div class="node ad">adaptive detector settings</div><div class="arr"></div><div class="node fx">YOLOv8n</div><div class="arr"></div><div class="node hot">ByteTrack</div></div>
+  <div class="callout caution"><b>Historical evaluation warning:</b> many early results used the project's custom class-agnostic protocol. They are useful for internal development, not an official VisDrone leaderboard claim.</div>
+</div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-sec="4" data-secname="IV · Development history" data-title="Historical baseline to AC-MOT">
+<header class="s-head"><div class="kicker">Historical internal result</div><h2>The First Full AC-MOT System Improved the Internal Baseline</h2></header>
+<div class="s-body col">
+  <table class="tbl" style="font-size:24px"><tr><th>System</th><th>MOTA ↑</th><th>HOTA ↑</th><th>IDF1 ↑</th><th>IDS ↓</th><th>FPS ↑</th></tr><tr><td>Baseline Default</td><td>19.718</td><td>28.418</td><td>32.716</td><td>1238</td><td>44.181</td></tr><tr class="sel"><td>Full AC-MOT</td><td>22.999</td><td>33.017</td><td>40.021</td><td>994</td><td>37.686</td></tr><tr><td>TRK_MATCH_090</td><td>22.953</td><td>33.328</td><td>40.656</td><td>946</td><td>38.028</td></tr></table>
+  <div class="callout caution"><b>Correct label:</b> Historical custom protocol · internal comparison only.</div>
+</div>
+<footer class="s-foot"><span class="prov p-hist">Historical custom protocol · not official VisDrone leaderboard</span></footer>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-sec="4" data-secname="IV · Development history" data-title="V1 optimization">
+<header class="s-head"><div class="kicker">Optimization stage</div><h2>V1: Optimize the Scene Score on Validation Data</h2></header>
+<div class="s-body row">
+  <div class="col" style="width:680px"><div class="card sec"><h3>Optuna TPE</h3><p>50 validation-only trials.</p><div class="pill good">selected Trial 24</div></div><div class="card"><h3>Selection logic</h3><p>Quality-oriented with FPS and IDS constraints.</p></div></div>
+  <div class="col grow"><table class="tbl"><tr><th>Metric</th><th>Old A3</th><th>V1 Trial 24</th></tr><tr><td>MOTA ↑</td><td>18.1647</td><td class="best">23.0381</td></tr><tr><td>HOTA ↑</td><td>33.0640</td><td class="best">36.1102</td></tr><tr><td>IDF1 ↑</td><td>36.2962</td><td class="best">40.7578</td></tr><tr><td>IDS ↓</td><td>271</td><td>270</td></tr><tr><td>FPS ↑</td><td class="best">42.0855</td><td>37.1686</td></tr></table></div>
+</div>
+<footer class="s-foot"><span class="prov p-val">Validation · V1 Trial 24 · selected before held-out testing</span></footer>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-sec="4" data-secname="IV · Development history" data-title="V1 learned weights">
+<header class="s-head"><div class="kicker">What V1 learned</div><h2>Edge Complexity Became the Strongest SCI Cue</h2></header>
+<div class="s-body col">
+  <div class="compare-row"><span>Edge</span><div class="simple-bar"><i style="width:43.37%"></i></div><strong>0.434</strong></div>
+  <div class="compare-row"><span>Tiny objects</span><div class="simple-bar"><i style="width:22.17%"></i></div><strong>0.222</strong></div>
+  <div class="compare-row"><span>Blur</span><div class="simple-bar"><i style="width:16.15%"></i></div><strong>0.161</strong></div>
+  <div class="compare-row"><span>Crowd</span><div class="simple-bar"><i style="width:12.95%"></i></div><strong>0.129</strong></div>
+  <div class="compare-row"><span>Night</span><div class="simple-bar"><i style="width:5.36%"></i></div><strong>0.054</strong></div>
+  <div class="callout"><b>Important scientific wording:</b> the five cue ideas are motivated by tracking difficulty; these exact numerical weights were obtained by optimization.</div>
+</div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-sec="4" data-secname="IV · Development history" data-title="V2 optimization">
+<header class="s-head"><div class="kicker">Second optimization stage</div><h2>V2: Explicitly Trade Tracking Quality for Identity Stability</h2></header>
+<div class="s-body row">
+  <div class="card sec" style="width:620px"><h3>Two objectives</h3><div class="formula">maximize MOTA<br>minimize IDS</div><p>49 trials completed. FPS constraint ≥ 25.</p></div>
+  <div class="col grow"><table class="tbl"><tr><th>Metric</th><th>V1</th><th>V2 Trial 22</th></tr><tr><td>MOTA ↑</td><td class="best">23.0381</td><td>19.3303</td></tr><tr><td>IDF1 ↑</td><td class="best">40.7578</td><td>34.2261</td></tr><tr><td>IDS ↓</td><td>270</td><td class="best">168</td></tr><tr><td>FPS ↑</td><td>37.1686</td><td class="best">51.4063</td></tr></table><div class="callout"><b>Interpretation:</b> V2 is a reproducible trade-off, not a global replacement for V1.</div></div>
+</div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-sec="4" data-secname="IV · Development history" data-title="UAVDT generalization">
+<header class="s-head"><div class="kicker">Cross-dataset evidence</div><h2>UAVDT: Frozen Systems, Zero Dataset-Specific Tuning</h2></header>
+<div class="s-body col">
+  <table class="tbl" style="font-size:23px"><tr><th>System</th><th>MOTA ↑</th><th>HOTA ↑</th><th>IDF1 ↑</th><th>IDS ↓</th><th>FP ↓</th><th>FPS ↑</th></tr><tr><td>Baseline</td><td>13.841</td><td>24.085</td><td>27.887</td><td>558</td><td>22,974</td><td class="best">65.015</td></tr><tr class="sel"><td>V1</td><td class="best">17.399</td><td class="best">28.390</td><td class="best">34.453</td><td>321</td><td>22,896</td><td>58.353</td></tr><tr><td>V2</td><td>16.118</td><td>26.930</td><td>32.014</td><td class="best">308</td><td class="best">18,758</td><td>61.462</td></tr></table>
+  <div class="callout truth"><b>What this supports:</b> the lightweight AC-MOT idea generalized to a second aerial dataset without UAVDT-specific tuning.</div>
+</div>
+<footer class="s-foot"><span class="prov p-ext">External UAVDT test · historical frozen lightweight systems</span></footer>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-sec="5" data-secname="V · Protocol correction" data-title="Evaluation protocol correction">
+<header class="s-head"><div class="kicker">Scientific integrity</div><h2>Evaluation Protocol Correction</h2></header>
+<div class="s-body g2" style="gap:28px">
+  <div class="card" style="border-top:7px solid #F59E0B"><h3>Earlier internal protocol</h3><ul class="clean"><li>class-agnostic matching</li><li>custom GT filters</li><li>no official ignore-region preprocessing</li></ul><span class="badge-hist">Historical internal only</span></div>
+  <div class="card" style="border-top:7px solid #16A34A"><h3>Official-aligned protocol</h3><ul class="clean v"><li>classes 1, 4, 5, 6, 9</li><li>ignore classes 0 and 11</li><li>IoU = 0.5</li><li>class-aware evaluation</li></ul><span class="badge-final">Use for new official-aligned work</span></div>
+  <div class="callout caution" style="grid-column:1/3"><b>Rule:</b> never mix the historical custom numbers with official-aligned benchmark numbers in the same causal comparison.</div>
+</div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-sec="6" data-secname="VI · Published baseline" data-title="Why U2MOT">
+<header class="s-head"><div class="kicker">Generalization to a published method</div><h2>Why Add U2MOT?</h2></header>
+<div class="s-body col">
+  <div class="two-pipeline">
+    <div class="card sec tc"><h3>Original track</h3><div class="big">YOLOv8n + ByteTrack</div><p>lightweight / real-time thesis track</p></div>
+    <div class="result-arrow">→</div>
+    <div class="card sec tc"><h3>Generalization track</h3><div class="big">YOLOX-X + U2MOT</div><p>different strong published MOT framework</p></div>
+  </div>
+  <div class="callout truth"><b>Scientific question:</b> Is AC-MOT tied to one detector/tracker pair, or can the detector-side control idea transfer?</div>
+  <div class="card"><h3>Published method</h3><p>U2MOT — Uncertainty-aware Unsupervised Multi-Object Tracking · ICCV 2023 · official Alibaba implementation.</p></div>
+</div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-sec="6" data-secname="VI · Published baseline" data-title="Pinned U2MOT setup">
+<header class="s-head"><div class="kicker">Reproducibility</div><h2>U2MOT Was Pinned Before the AC-MOT Comparison</h2></header>
+<div class="s-body col">
+  <div class="card"><div class="tag">Repository commit</div><div class="formula" style="font-size:20px" data-bind="u2motFinal.commit"></div></div>
+  <div class="card"><div class="tag">Official checkpoint SHA256</div><div class="formula" style="font-size:18px" data-bind="u2motFinal.checkpointSha256"></div></div>
+  <div class="g4"><div class="card tc"><h3>Detector</h3><p>YOLOX-X</p></div><div class="card tc"><h3>Input</h3><p>1600 × 896</p></div><div class="card tc"><h3>NMS</h3><p>0.70</p></div><div class="card tc"><h3>effective conf</h3><p>0.09</p></div></div>
+  <div class="callout"><b>Tracker baseline:</b> high 0.50 · low 0.10 · match 0.80 · buffer 15.</div>
+</div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-sec="6" data-secname="VI · Published baseline" data-title="A0 reproduced baseline">
+<header class="s-head"><div class="kicker">Controlled baseline</div><h2>A0: Our Reproduced U2MOT Baseline</h2></header>
+<div class="s-body col">
+  <div class="row" style="gap:12px"><span class="pill sec">VisDrone test-dev</span><span class="pill sec">17 sequences</span><span class="pill sec">6,635 frames</span><span class="pill good">official file CMC</span></div>
+  <div class="g4" style="gap:18px"><div class="metric-card tc"><div class="m" data-bind="u2motFinal.baseline.mota" data-dec="1"></div><div class="d">MOTA</div></div><div class="metric-card tc"><div class="m" data-bind="u2motFinal.baseline.idf1" data-dec="1"></div><div class="d">IDF1</div></div><div class="metric-card tc"><div class="m" data-bind="u2motFinal.baseline.ids" data-k></div><div class="d">IDS</div></div><div class="metric-card tc"><div class="m" data-bind="u2motFinal.baseline.fp" data-k></div><div class="d">FP</div></div></div>
+  <div class="callout truth"><b>This A0 reproduction is the controlled baseline for AC-MOT.</b> We do not use a published table number as if it were the same run.</div>
+</div>
+<footer class="s-foot"><span class="prov p-test">Reproduced U2MOT A0 · official-aligned held-out test-dev</span></footer>
+</section>
+
+<!-- 22 -->
+<section class="slide" data-sec="7" data-secname="VII · Transfer calibration" data-title="Why old SCI thresholds failed">
+<header class="s-head"><div class="kicker">First transfer problem</div><h2>The Old SCI Thresholds Made U2MOT Almost Always “Hard”</h2></header>
+<div class="s-body col">
+  <div class="g2"><div class="card"><h3>Old V1 boundaries</h3><div class="formula">mid = 0.135<br>high = 0.287</div></div><div class="card"><h3>Observed U2MOT validation SCI</h3><div class="formula">min = 0.342<br>median = 0.549<br>max = 0.725</div></div></div>
+  <svg viewBox="0 0 1400 220" class="zoomable" aria-label="Old thresholds lie below the U2MOT validation SCI distribution"><line x1="80" y1="120" x2="1320" y2="120" stroke="#CBD5E1" stroke-width="12" stroke-linecap="round"/><line x1="338" y1="72" x2="338" y2="165" stroke="#DC2626" stroke-width="5"/><text x="292" y="55" font-size="24" fill="#B91C1C">old 0.135</text><line x1="520" y1="72" x2="520" y2="165" stroke="#DC2626" stroke-width="5"/><text x="474" y="200" font-size="24" fill="#B91C1C">old 0.287</text><rect x="705" y="85" width="505" height="70" rx="35" fill="#C7D2FE"/><text x="790" y="130" font-size="27" fill="#3730A3">actual validation SCI ≈ 0.34 → 0.72</text></svg>
+  <div class="callout caution"><b>Lesson:</b> transfer the SCI representation, but do not assume the old regime boundaries remain valid in a different pipeline.</div>
+</div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-sec="7" data-secname="VII · Transfer calibration" data-title="Validation-only SCI recalibration">
+<header class="s-head"><div class="kicker">Validation-only calibration</div><h2>Recalibrate the Regime Boundaries — Without GT Metrics</h2></header>
+<div class="s-body col">
+  <div class="g3"><div class="card tc"><div class="big">q33</div><div class="formula" data-bind="u2motFinal.sci.mid" data-dec="6"></div><p>Easy / Medium boundary</p></div><div class="card tc"><div class="big">median</div><div class="formula">0.548972</div><p>center of observed SCI</p></div><div class="card tc"><div class="big">q67</div><div class="formula" data-bind="u2motFinal.sci.high" data-dec="6"></div><p>Medium / Hard boundary</p></div></div>
+  <div class="history-strip"><div class="history-step"><b>Easy</b><small>SCI &lt; 0.518545</small></div><div class="history-step"><b>Medium</b><small>0.518545 ≤ SCI &lt; 0.589555</small></div><div class="history-step"><b>Hard</b><small>SCI ≥ 0.589555</small></div></div>
+  <div class="callout truth"><b>No test-dev metrics were used.</b> The boundaries came only from the unlabeled validation SCI distribution.</div>
+</div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-sec="7" data-secname="VII · Transfer calibration" data-title="Final adaptive actions">
+<header class="s-head"><div class="kicker">Frozen U2MOT controller</div><h2>Easy, Medium and Hard Use Different Detector Settings</h2></header>
+<div class="s-body g3" style="gap:22px">
+  <div class="card" style="border-top:8px solid #16A34A"><h2 style="font-size:34px">EASY</h2><div class="formula">conf 0.15<br>NMS 0.70<br>1280 × 704</div><p>Spend less compute when the scene is simple.</p></div>
+  <div class="card" style="border-top:8px solid #F59E0B"><h2 style="font-size:34px">MEDIUM</h2><div class="formula">conf 0.12<br>NMS 0.65<br>1440 × 800</div><p>Balanced operating point.</p></div>
+  <div class="card" style="border-top:8px solid #DC2626"><h2 style="font-size:34px">HARD</h2><div class="formula">conf 0.09<br>NMS 0.60<br>1600 × 896</div><p>Keep full detail for difficult scenes.</p></div>
+  <div class="callout" style="grid-column:1/4"><b>Tracker stays fixed:</b> high 0.50 · low 0.10 · match 0.80 · buffer 15.</div>
+</div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-sec="8" data-secname="VIII · Validation" data-title="Fair validation comparison">
+<header class="s-head"><div class="kicker">Fair comparison · 7 validation sequences</div><h2>Validation: Full AC-MOT Improves Quality and Identity</h2></header>
+<div class="s-body col">
+  <table class="tbl" style="font-size:24px"><tr><th>Metric</th><th>Fixed U2MOT</th><th>Full AC-MOT</th><th>Δ</th></tr><tr><td>MOTA ↑</td><td>75.127</td><td class="best">75.474</td><td class="pos">+0.346</td></tr><tr><td>IDF1 ↑</td><td>75.558</td><td class="best">76.577</td><td class="pos">+1.020</td></tr><tr><td>IDS ↓</td><td>1947</td><td class="best">1908</td><td class="pos">−39</td></tr><tr><td>FP ↓</td><td>8837</td><td class="best">7992</td><td class="pos">−845</td></tr><tr><td>FN ↓</td><td class="best">7091</td><td>7726</td><td class="neg">+635</td></tr></table>
+  <div class="callout truth"><b>Validation story:</b> MOTA ↑, IDF1 ↑, IDS ↓ and FP ↓, while FN ↑. The controller became more selective.</div>
+</div>
+<footer class="s-foot"><span class="prov p-val">VisDrone validation · same checkpoint/tracker/evaluator · CMC none for both</span></footer>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-sec="8" data-secname="VIII · Validation" data-title="Precision recall tradeoff">
+<header class="s-head"><div class="kicker">Why FP fell but FN rose</div><h2>AC-MOT Became More Selective</h2></header>
+<div class="s-body g2" style="gap:26px">
+  <div class="card"><h3>Precision ↑</h3><div class="formula">87.995% → 88.920%</div><p>More predicted detections were correct.</p><div class="simple-bar good"><i style="width:88.92%"></i></div></div>
+  <div class="card"><h3>Recall ↓</h3><div class="formula">90.133% → 89.249%</div><p>A few more real objects were missed.</p><div class="simple-bar warn"><i style="width:89.25%"></i></div></div>
+  <div class="callout caution" style="grid-column:1/3"><b>Simple interpretation:</b> fewer false alarms, but slightly more missed objects.</div>
+</div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-sec="9" data-secname="IX · Runtime" data-title="Why runtime needed matching">
+<header class="s-head"><div class="kicker">Runtime methodology</div><h2>The First Wall-Time Comparison Was Not Fair</h2></header>
+<div class="s-body g2" style="gap:28px">
+  <div class="card" style="border-top:7px solid #DC2626"><h3>Original baseline path</h3><p>Official U2MOT DataLoader with multiple workers.</p><span class="pill bad">different implementation path</span></div>
+  <div class="card" style="border-top:7px solid #DC2626"><h3>AC-MOT path</h3><p>Dynamic per-frame loading, SCI and resizing.</p><span class="pill bad">not directly comparable</span></div>
+  <div class="callout truth" style="grid-column:1/3"><b>Fix:</b> run a fixed full-resolution U2MOT baseline through the same dynamic frame loop as AC-MOT.</div>
+</div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-sec="9" data-secname="IX · Runtime" data-title="Matched runtime result">
+<header class="s-head"><div class="kicker">Matched execution path</div><h2>Same Runtime Path: AC-MOT Is 25.76% Faster</h2></header>
+<div class="s-body col">
+  <div class="g2" style="gap:30px"><div class="card tc"><div class="tag">Fixed full-resolution baseline</div><div class="big">3.707 FPS</div><p>269.730 ms / frame</p><div class="simple-bar"><i style="width:79.5%"></i></div></div><div class="card tc" style="border:3px solid #16A34A"><div class="tag">Full AC-MOT</div><div class="big good">4.663 FPS</div><p>214.477 ms / frame</p><div class="simple-bar good"><i style="width:100%"></i></div></div></div>
+  <div class="kpi tc"><div class="l">Relative speed improvement</div><div class="d up" style="font-size:54px">+25.76%</div></div>
+  <div class="callout"><b>Where the gain comes from:</b> easy scenes use 1280 × 704 instead of full 1600 × 896.</div>
+</div>
+<footer class="s-foot"><span class="prov p-val">Matched-runtime benchmark · validation · same dynamic execution path</span></footer>
+</section>
+
+<!-- 29 -->
+<section class="slide" data-sec="10" data-secname="X · Final freeze" data-title="Frozen before test-dev">
+<header class="s-head"><div class="kicker">Scientific lock</div><h2>The Controller Was Frozen Before the Final Test</h2></header>
+<div class="s-body col">
+  <div class="card"><div class="tag">Policy SHA256</div><div class="formula" style="font-size:17px" data-bind="u2motFinal.policySha256"></div></div>
+  <div class="card"><div class="tag">Tracking script SHA256</div><div class="formula" style="font-size:17px" data-bind="u2motFinal.scriptSha256"></div></div>
+  <div class="card"><div class="tag">Frozen config SHA256</div><div class="formula" style="font-size:17px" data-bind="u2motFinal.configSha256"></div></div>
+  <div class="callout truth"><b>Rule:</b> after seeing test-dev, no parameter is changed and re-evaluated for model-selection claims.</div>
+</div>
+</section>
+
+<!-- 30 -->
+<section class="slide" data-sec="10" data-secname="X · Final freeze" data-title="Final held-out test setup">
+<header class="s-head"><div class="kicker">Held-out evaluation</div><h2>Final Test: Same U2MOT, Same Tracker, Only AC-MOT Added</h2></header>
+<div class="s-body col">
+  <div class="row" style="gap:14px"><span class="pill sec">17 sequences</span><span class="pill sec">6,635 frames</span><span class="pill sec">official file CMC</span><span class="pill sec">same checkpoint</span><span class="pill sec">same tracker</span></div>
+  <div class="two-pipeline" style="margin-top:45px"><div class="card tc"><h3>A0 Baseline</h3><p>fixed conf 0.09 · NMS 0.70 · 1600 × 896</p></div><div class="result-arrow">VS</div><div class="card tc" style="border:3px solid #4F46E5"><h3>Frozen Full AC-MOT</h3><p>Easy / Medium / Hard detector actions</p></div></div>
+  <div class="callout"><b>Strong causal comparison:</b> detector/tracker framework, weights, dataset and evaluator stay fixed.</div>
+</div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-sec="10" data-secname="X · Final freeze" data-title="Final held-out result">
+<header class="s-head"><div class="kicker">Final held-out result</div><h2>U2MOT + AC-MOT: Identity Improves, MOTA Is Nearly Preserved</h2></header>
+<div class="s-body col">
+<table class="tbl" style="font-size:25px"><tr><th>Metric</th><th>A0 U2MOT</th><th>Frozen Full AC-MOT</th><th>Δ</th></tr><tr><td>MOTA ↑</td><td class="best">53.900</td><td>53.767</td><td class="neg">−0.133</td></tr><tr><td>IDF1 ↑</td><td>69.800</td><td class="best">69.849</td><td class="pos">+0.049</td></tr><tr><td>IDS ↓</td><td>1239</td><td class="best">1152</td><td class="pos">−87</td></tr><tr><td>FP ↓</td><td>41,385</td><td class="best">40,155</td><td class="pos">−1,230</td></tr><tr><td>FN ↓</td><td class="best">63,241</td><td>64,801</td><td class="neg">+1,560</td></tr></table>
+<div class="callout caution"><b>Do not claim MOTA superiority.</b> The correct result is an operating-point shift: fewer ID switches and false positives, but more missed objects.</div>
+</div>
+<footer class="s-foot"><span class="prov p-test">Final frozen held-out test-dev · FINAL_U2MOT_ACMOT_FREEZE_2026-09-14</span></footer>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-sec="10" data-secname="X · Final freeze" data-title="Final result visual interpretation">
+<header class="s-head"><div class="kicker">Read the result visually</div><h2>What Changed?</h2></header>
+<div class="s-body col">
+  <div class="compare-row"><span>Identity switches</span><div class="simple-bar good"><i style="width:92.98%"></i></div><strong>1239 → 1152</strong></div>
+  <div class="compare-row"><span>False positives</span><div class="simple-bar good"><i style="width:97.03%"></i></div><strong>41,385 → 40,155</strong></div>
+  <div class="compare-row"><span>False negatives</span><div class="simple-bar bad"><i style="width:100%"></i></div><strong>63,241 → 64,801</strong></div>
+  <div class="g3" style="margin-top:30px"><div class="card tc"><div class="big pos">−7.0%</div><p>rough IDS reduction</p></div><div class="card tc"><div class="big pos">−1,230</div><p>false positives</p></div><div class="card tc"><div class="big neg">+1,560</div><p>false negatives</p></div></div>
+  <div class="callout truth"><b>Interpretation:</b> AC-MOT became more conservative and identity-stable, while total MOTA stayed almost unchanged.</div>
+</div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-sec="10" data-secname="X · Final freeze" data-title="Test-dev tier behavior">
+<header class="s-head"><div class="kicker">Controller behavior on held-out data</div><h2>Two-Thirds of Test-Dev Was Classified Hard</h2></header>
+<div class="s-body col">
+  <div class="compare-row"><span>Hard</span><div class="simple-bar bad"><i style="width:66.62%"></i></div><strong>66.62%</strong></div>
+  <div class="compare-row"><span>Medium</span><div class="simple-bar warn"><i style="width:19.14%"></i></div><strong>19.14%</strong></div>
+  <div class="compare-row"><span>Easy</span><div class="simple-bar good"><i style="width:14.24%"></i></div><strong>14.24%</strong></div>
+  <div class="g3" style="margin-top:30px"><div class="card tc"><div class="big">4420</div><p>Hard frames</p></div><div class="card tc"><div class="big">1270</div><p>Medium frames</p></div><div class="card tc"><div class="big">945</div><p>Easy frames</p></div></div>
+  <div class="callout caution"><b>Why this matters:</b> the controller kept full 1600 × 896 resolution for most test frames, so speed savings depend on scene distribution.</div>
+</div>
+</section>
+
+<!-- 34 -->
+<section class="slide" data-sec="11" data-secname="XI · Scientific claim" data-title="What the experiments prove">
+<header class="s-head"><div class="kicker">Scientific claim</div><h2>What Can We Defend Now?</h2></header>
+<div class="s-body g2" style="gap:28px">
+  <div class="card" style="border-top:8px solid #16A34A"><h3 class="good">Supported</h3><ul class="clean v q1-list"><li>scene-aware detector control is practical</li><li>the idea works in the lightweight YOLOv8n + ByteTrack track</li><li>it transfers to a very different YOLOX-X + U2MOT framework</li><li>it can reduce IDS and FP while approximately preserving MOTA / IDF1</li><li>adaptive resolution can reduce matched-runtime compute</li></ul></div>
+  <div class="card" style="border-top:8px solid #DC2626"><h3 class="bad">Not supported</h3><ul class="clean x q1-list"><li>AC-MOT improves every tracker</li><li>AC-MOT always improves every metric</li><li>the final U2MOT MOTA is higher</li><li>historical custom results are official leaderboard results</li><li>Q1 acceptance is guaranteed</li></ul></div>
+</div>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-sec="11" data-secname="XI · Scientific claim" data-title="Contributions">
+<header class="s-head"><div class="kicker">Contributions</div><h2>The Strongest Paper Contribution Story</h2></header>
+<div class="s-body g3" style="grid-template-rows:1fr 1fr;gap:18px">
+  <div class="card sec"><div class="big secc">1</div><h3>Lightweight scene score</h3><p>Five cheap cues with temporal smoothing.</p></div>
+  <div class="card sec"><div class="big secc">2</div><h3>Detector-side adaptive control</h3><p>Joint confidence, NMS and resolution adaptation.</p></div>
+  <div class="card sec"><div class="big secc">3</div><h3>Validation-first tuning</h3><p>Controller selection before held-out testing.</p></div>
+  <div class="card sec"><div class="big secc">4</div><h3>Cross-dataset evidence</h3><p>Frozen lightweight systems tested on UAVDT.</p></div>
+  <div class="card sec"><div class="big secc">5</div><h3>Cross-pipeline transfer</h3><p>AC-MOT transferred from YOLOv8n + ByteTrack to YOLOX-X + U2MOT.</p></div>
+  <div class="card sec"><div class="big secc">6</div><h3>Reproducible freeze</h3><p>Commit, checkpoint, policy, script and config hashes preserved.</p></div>
+</div>
+</section>
+
+<!-- 36 -->
+<section class="slide" data-sec="11" data-secname="XI · Scientific claim" data-title="Limitations">
+<header class="s-head"><div class="kicker">Honest limitations</div><h2>What Still Limits the Current Study?</h2></header>
+<div class="s-body g4" style="grid-template-rows:1fr 1fr;gap:16px">
+  <div class="card"><h3>Final MOTA</h3><p>U2MOT test-dev MOTA fell by 0.133 points.</p></div>
+  <div class="card"><h3>False negatives</h3><p>FN increased by 1,560 on final test-dev.</p></div>
+  <div class="card"><h3>Hard-set dominance</h3><p>66.62% of test-dev frames used the Hard regime.</p></div>
+  <div class="card"><h3>Pipeline dependence</h3><p>The best detector actions can differ by model.</p></div>
+  <div class="card"><h3>Hand-designed cues</h3><p>SCI is not yet a learned difficulty estimator.</p></div>
+  <div class="card"><h3>Official lightweight rerun</h3><p>The original track still needs a clean official-aligned rerun for the strongest paper story.</p></div>
+  <div class="card"><h3>Ablation depth</h3><p>Full official confidence-only / NMS-only / resolution-only ablation would strengthen causality.</p></div>
+  <div class="card"><h3>Statistics</h3><p>Per-sequence paired analysis should be added to the latest official-aligned track.</p></div>
+</div>
+</section>
+
+<!-- 37 -->
+<section class="slide" data-sec="12" data-secname="XII · Q1 roadmap" data-title="Q1 roadmap">
+<header class="s-head"><div class="kicker">Publication roadmap</div><h2>What I Would Complete Before a Strong Q1 Submission</h2></header>
+<div class="s-body col">
+  <div class="history-strip"><div class="history-step"><b>Done</b><small>freeze U2MOT baseline + AC-MOT final test</small></div><div class="history-step"><b>Next 1</b><small>official-aligned lightweight rerun</small></div><div class="history-step"><b>Next 2</b><small>confidence / NMS / resolution ablation</small></div><div class="history-step"><b>Next 3</b><small>per-sequence CI / paired statistics</small></div><div class="history-step"><b>Next 4</b><small>second official-aligned dataset or pipeline</small></div></div>
+  <div class="g2" style="gap:24px"><div class="card"><h3>Paper structure</h3><p>Method → lightweight real-time evidence → published U2MOT transfer → efficiency → limitations.</p></div><div class="card"><h3>Best claim</h3><p>Tracker-agnostic <i>design intent</i> with demonstrated transfer across multiple pipelines — not guaranteed improvement for every tracker.</p></div></div>
+  <div class="callout truth"><b>Goal:</b> show a reproducible accuracy–identity–efficiency controller, not just a single higher MOTA number.</div>
+</div>
+</section>
+
+<!-- 38 -->
+<section class="slide" data-sec="12" data-secname="XII · Q1 roadmap" data-title="Final conclusion">
+<header class="s-head"><div class="kicker">Conclusion</div><h2>The Research Story in One Slide</h2></header>
+<div class="s-body col" style="gap:22px">
+  <div class="flow" style="margin-top:30px"><div class="node bad frag">Scene difficulty changes</div><div class="arr frag"></div><div class="node ad frag">SCI measures difficulty</div><div class="arr frag"></div><div class="node ad frag">Controller adapts detector</div><div class="arr frag"></div><div class="node good frag">Quality / identity / compute trade-off</div></div>
+  <div class="g3" style="gap:18px;margin-top:40px"><div class="card tc"><h3>Lightweight evidence</h3><p>YOLOv8n + ByteTrack</p></div><div class="card tc"><h3>Cross-dataset evidence</h3><p>UAVDT</p></div><div class="card tc"><h3>Published-framework transfer</h3><p>YOLOX-X + U2MOT</p></div></div>
+  <div class="callout truth"><b>Final message:</b> AC-MOT is a scene-aware detector control layer. Its value is not that every metric always rises; its value is that the detector operating point can be adapted and transferred in a controlled, reproducible way.</div>
+</div>
+<aside class="notes"><p>End with the exact claim you can defend. Do not overclaim universal tracker improvement or final MOTA superiority.</p></aside>
+</section>
+
+<!-- 39 -->
+<section class="slide title-slide" data-sec="12" data-secname="XII · Q1 roadmap" data-title="Thank you">
+  <div class="title-left"><div class="eyebrow">AC-MOT · frozen research history v2</div><h1>Thank You</h1><div class="t-sub">Questions?</div><div class="t-sub2">Use O for the slide navigator and N for speaker notes.</div><div class="t-aff">Latest scientific source: FINAL_U2MOT_ACMOT_FREEZE_2026-09-14</div></div>
+  <div class="title-right"><div class="img tr-main zoomable"><img src="assets/figures/image28.jpeg" alt="Aerial tracking scene used as closing visual"></div></div>
+</section>
+
+</main></div>
+<script src="assets/data/results.js"></script>
+<script src="assets/data/results_q1_history_v2.js"></script>
+<script src="assets/data/cue_examples.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
